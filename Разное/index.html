@@ -1,0 +1,145 @@
+<html>
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <style type="text/css">
+   TABLE {
+    background: #e6e2b2;
+    margin: 1%;
+    width: 700;
+    border: 1px solid #399;
+    border-spacing: 7px 5px;
+   }
+   TD {
+    background: #e5f6f5;
+    border: 1px solid #333;
+    padding: 5px;
+    width: 70
+   }
+   TABLE {
+    margin: 1%;
+    width: 700;
+    border: 1px solid #399;
+    border-spacing: 7px 5px;
+   }
+   INPUT {
+    background: #e6e2b2;
+    margin: 1%;
+    padding: .7em 1.5em;
+   }
+   P {
+    margin: 1%;
+    visibility: hidden;
+   }
+  </style>
+
+  <script type="text/javascript">
+    var index_i = 0;
+    var index_j = 0;
+
+    function getRandomInt(min, max){
+        return Math.floor(Math.random() * (max - min + 1)) + min;}
+
+    function clearScreen(){
+        index_i = 0;
+        index_j = 0;
+        $($('#randomList').find('td')).css('background', '#e5f6f5');}
+
+    function createTable() {
+        clearScreen();
+        $('#oneStep').css('visibility', 'visible');
+        var MyRows = $('#randomList').find('td');
+        for (var i = 0; i < MyRows.length; i++){
+            $(MyRows[i]).html(getRandomInt(-10, 10));
+        }
+     }
+
+    function getData() {
+        var data = $('#randomList').find('td');
+        for (var i = 0; i < data.length; i++){
+            data[i] = parseInt($(data[i]).html());
+        }
+        return data;}
+
+    function sortBubble() {
+        clearScreen();
+        $('#oneStep').css('visibility', 'hidden');
+
+        var data = getData();
+        for(var i = 0; i < 9; i++){
+            for(var j = 0; j < 9 - i; j++){
+                if(data[j] > data[j + 1]){
+                    tmp = data[j];
+                    data[j] = data[j+1];
+                    data[j+1] = tmp;}
+            }
+        }
+
+        for (var i = 0; i < data.length; i++){
+            $($('#randomList').find('td')[i]).html(data[i]);}
+    }
+
+    function rules() {
+        $('#about_us').css('visibility', 'visible');}
+
+    function oneStep() {
+        var data = $('#randomList').find('td');
+        $(data).css('background', '#e5f6f5');
+        var a = $(data[index_j]);
+        var b = $(data[index_j + 1]);
+        a.css('background', '#66cec6');
+        b.css('background', '#66cec6');
+        var a_val = parseInt(a.html());
+        var b_val = parseInt(b.html());
+        if(a_val > b_val){
+            tmp = data[index_j];
+            a.html(b_val);
+            b.html(a_val);
+        }
+        index_j++;
+        if (index_j > 8 - index_i) {
+            index_i++;
+            index_j = 0;
+        }
+    }
+  </script>
+ </head>
+ <body>
+  <input type="button" onclick="createTable();" value="Сгенерировать массив" />
+
+  <table>
+   <tr id = "randomList">
+    <td>10</td>        
+    <td>-7</td>
+    <td>5</td>
+    <td>9</td>        
+    <td>-3</td>
+    <td>2</td>
+    <td>1</td>        
+    <td>-6</td>
+    <td>1</td>
+    <td>0</td>
+   </tr>
+   <tr>
+    <td>0</td>        
+    <td>1</td>
+    <td>2</td>
+    <td>3</td>        
+    <td>4</td>
+    <td>5</td>
+    <td>6</td>        
+    <td>7</td>
+    <td>8</td>
+    <td>9</td>
+   </tr>
+  </table>
+
+  <input type="button" onclick="sortBubble();" value="Сортируй!" />
+  <input type="button" id= "oneStep" onclick="oneStep();" value="Следующий шаг" />
+  <input type="button" onclick="rules();" value="О нас" />
+
+  <div>
+   <p id = "about_us">Данный сервис является демонстрационным материалом, используемым при изучении алгоритма сортировки пузырьком. Позволяет провести сортировку мгновенно, а так же посмотреть на работу алгоритма по шагам. Сортируемые последовательности генерируются после нажатия на кнопку. Их диапазон [-10;10].</p>
+  </div>
+ </body>
+</html>
